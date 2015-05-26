@@ -53,7 +53,7 @@ docker run -d --name dropbox -v /path/to/dropbox/data:/dropbox/Dropbox -v /path/
 By default the user "dropbox" (with id 1000) is used. You can customize and pass a user (and its id) of the docker host (so that file perms are correct).
 Example, if your docker host has a user "myuser" with id 1005 you can use :
 ```sh
-docker run -d --name dropbox -v /path/to/dropbox/data:/dropbox/Dropbox -v /path/to/dropbox/conf:/dropbox/.dropbox -e USER=myuser -e USERID=1005 thomfab/dropbox
+docker run -d --name dropbox -v /path/to/dropbox/data:/dropbox/Dropbox -v /path/to/dropbox/conf:/dropbox/.dropbox -e DROPBOX_USER=myuser -e DROPBOX_USERID=1005 thomfab/dropbox
 ```
 Files created in the /dropbox/Dropbox volume will belong to the user ubuntu (and group users, see below).
 
@@ -61,6 +61,6 @@ Files created in the /dropbox/Dropbox volume will belong to the user ubuntu (and
 By default the group "users" (with id 100) is used. You can also customize and pass a group (and its id) of the docker host.
 Example, if your docker host has a group "mygroup" with id 1005 you can use :
 ```sh
-docker run -d --name dropbox -v /path/to/dropbox/data:/dropbox/Dropbox -v /path/to/dropbox/conf:/dropbox/.dropbox -e USER=myuser -e USERID=1005 -e GROUP=mygroup -e GROUPID=1005 thomfab/dropbox
+docker run -d --name dropbox -v /path/to/dropbox/data:/dropbox/Dropbox -v /path/to/dropbox/conf:/dropbox/.dropbox -e DROPBOX_USER=myuser -e DROPBOX_USERID=1005 -e DROPBOX_GROUP=mygroup -e DROPBOX_GROUPID=1005 thomfab/dropbox
 ```
 Files created in the /dropbox/Dropbox volume will belong to the group mygroup.

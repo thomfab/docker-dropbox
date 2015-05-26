@@ -2,32 +2,32 @@
 
 umask 002
 
-USER=${USER:-dropbox}
-USERID=${USERID:-1000}
-PASSWORD=${PASSWORD:-password}
-GROUP=${GROUP:-users}
-GROUPID=${GROUPID:-100}
+DROPBOX_USER=${DROPBOX_USER:-dropbox}
+DROPBOX_USERID=${DROPBOX_USERID:-1000}
+DROPBOX_PASSWORD=${DROPBOX_PASSWORD:-password}
+DROPBOX_GROUP=${DROPBOX_GROUP:-users}
+DROPBOX_GROUPID=${DROPBOX_GROUPID:-100}
 
-getent group ${GROUP}
+getent group ${DROPBOX_GROUP}
 if [ $? -ne 0 ]; then
-  groupadd -g ${GROUPID} ${GROUP}
+  groupadd -g ${DROPBOX_GROUPID} ${DROPBOX_GROUP}
 fi
 
-getent passwd ${USER}
+getent passwd ${DROPBOX_USER}
 if [ $? -ne 0 ]; then
-  useradd -d /dropbox --gid=${GROUP} --groups=users --uid=${USERID} ${USER}
-  echo "$USER:$PASSWORD" | chpasswd
+  useradd -d /dropbox --gid=${DROPBOX_GROUP} --groups=users --uid=${DROPBOX_USERID} ${DROPBOX_USER}
+  echo "$DROPBOX_USER:$DROPBOX_PASSWORD" | chpasswd
 fi
-usermod -d /dropbox -m ${USER}
+usermod -d /dropbox -m ${DROPBOX_USER}
 
 echo fs.inotify.max_user_watches=100000 | sudo tee -a /etc/sysctl.conf; sudo sysctl -p
 
-chown ${USER}:${GROUP} /dropbox/.dropbox
+chown ${DROPBOX_USER}:${DROPBOX_GROUP} /dropbox/.dropbox
 chmod ug+rwX /dropbox/.dropbox
-chown ${USER}:${GROUP} /dropbox/Dropbox
+chown ${DROPBOX_USER}:${DROPBOX_GROUP} /dropbox/Dropbox
 chmod ug+rwX /dropbox/Dropbox
 
 cd /dropbox/.dropbox-dist
 DROPBOXDIR="/dropbox/.dropbox-dist/`ls -d dropbox-lnx*`"
 
-exec /sbin/setuser ${USER} $DROPBOXDIR/dropbox
+exec /sbin/setuser ${DROPBOX_USER} ${DROPBOXDIR}/dropbox
